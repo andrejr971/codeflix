@@ -1,209 +1,205 @@
-import { omit } from 'lodash';
+//import ValidationError from "../../../@seedwork/domain/errors/validation-error";
 
-import { UniqueEntityId } from '@core/src/@seedwork/domain/value-objects/unique-entity-id.vo';
-import {
-  Category,
-  CategoryProps,
-} from '@core/src/category/domain/entities/category';
+import { Category } from '@core/src/category/domain/entities/category';
 
-describe('Category unit test', () => {
-  beforeEach(() => {
-    Category.validate = jest.fn();
-  });
+describe('Category Integration Tests', () => {
+  describe('create method', () => {
+    it('should a invalid category using name property', () => {
+      expect(() => new Category({ name: null })).containsErrorMessages({
+        name: [
+          'name should not be empty',
+          'name must be a string',
+          'name must be shorter than or equal to 255 characters',
+        ],
+      });
 
-  test('construct of category ', () => {
-    let created_at = new Date();
+      expect(() => new Category({ name: '' })).containsErrorMessages({
+        name: ['name should not be empty'],
+      });
 
-    let category: Category = new Category({
-      name: 'Movie',
-    });
-    let props = omit(category.props, 'created_at');
-    expect(props).toStrictEqual({
-      name: 'Movie',
-      description: null,
-      is_active: true,
-    });
-    expect(category.created_at).toBeInstanceOf(Date);
+      expect(() => new Category({ name: 5 as any })).containsErrorMessages({
+        name: [
+          'name must be a string',
+          'name must be shorter than or equal to 255 characters',
+        ],
+      });
 
-    category = new Category({
-      name: 'Movie',
-      description: 'some description',
-      is_active: false,
-      created_at,
-    });
-    expect(category.props).toStrictEqual({
-      name: 'Movie',
-      description: 'some description',
-      is_active: false,
-      created_at,
+      expect(
+        () => new Category({ name: 't'.repeat(256) }),
+      ).containsErrorMessages({
+        name: ['name must be shorter than or equal to 255 characters'],
+      });
     });
 
-    category = new Category({
-      name: 'Movie',
-      description: 'other description',
-    });
-    expect(category.props).toMatchObject({
-      name: 'Movie',
-      description: 'other description',
-    });
-
-    category = new Category({
-      name: 'Movie',
-      is_active: true,
-    });
-    expect(category.props).toMatchObject({
-      name: 'Movie',
-      is_active: true,
+    it('should a invalid category using description property', () => {
+      expect(
+        () => new Category({ description: 5 } as any),
+      ).containsErrorMessages({
+        description: ['description must be a string'],
+      });
     });
 
-    category = new Category({
-      name: 'Movie',
-    });
-    expect(category.is_active).toBeTruthy();
-
-    category = new Category({
-      name: 'Movie',
-      created_at,
-    });
-    expect(category.props).toMatchObject({
-      name: 'Movie',
-      created_at,
-    });
-  });
-
-  test('id shield', () => {
-    type CategoryData = {
-      props: CategoryProps;
-      id?: UniqueEntityId;
-    };
-
-    const data: CategoryData[] = [
-      {
-        props: {
-          name: 'movie',
+    it('should a invalid category using is_active property', () => {
+      expect(() => new Category({ is_active: 5 } as any)).containsErrorMessages(
+        {
+          is_active: ['is_active must be a boolean value'],
         },
-      },
-      {
-        props: {
-          name: 'movie',
-        },
-        id: null,
-      },
-      {
-        props: {
-          name: 'movie',
-        },
-        id: undefined,
-      },
-      {
-        props: {
-          name: 'movie',
-        },
-        id: new UniqueEntityId(),
-      },
-    ];
+      );
+    });
 
-    data.forEach((index) => {
-      let category = new Category(index.props, index.id);
-      expect(category.id).not.toBeNull();
-      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+    it('should a valid category', () => {
+      expect.assertions(0);
+
+      new Category({ name: 'Movie' }); // NOSONAR
+      new Category({ name: 'Movie', description: 'some description' }); // NOSONAR
+      new Category({ name: 'Movie', description: null }); // NOSONAR
+
+      /* NOSONAR*/ new Category({
+        name: 'Movie',
+        description: 'some description',
+        is_active: false,
+      });
+      /* NOSONAR */ new Category({
+        name: 'Movie',
+        description: 'some description',
+        is_active: true,
+      });
     });
   });
 
-  test('getter of name props', () => {
-    const category = new Category({
-      name: 'movie',
+  describe('update method', () => {
+    it('should a invalid category using name property', () => {
+      const category = new Category({ name: 'Movie' });
+      expect(() => category.update(null, null)).containsErrorMessages({
+        name: [
+          'name should not be empty',
+          'name must be a string',
+          'name must be shorter than or equal to 255 characters',
+        ],
+      });
+
+      expect(() => category.update('', null)).containsErrorMessages({
+        name: ['name should not be empty'],
+      });
+
+      expect(() => category.update(5 as any, null)).containsErrorMessages({
+        name: [
+          'name must be a string',
+          'name must be shorter than or equal to 255 characters',
+        ],
+      });
+
+      expect(() =>
+        category.update('t'.repeat(256), null),
+      ).containsErrorMessages({
+        name: ['name must be shorter than or equal to 255 characters'],
+      });
     });
-    expect(category.name).toBe('movie');
-  });
 
-  test('getter and setter of description props', () => {
-    let category = new Category({
-      name: 'movie',
+    it('should a invalid category using description property', () => {
+      const category = new Category({ name: 'Movie' });
+      expect(() => category.update(null, 5 as any)).containsErrorMessages({
+        description: ['description must be a string'],
+      });
     });
-    expect(category.name).toBe('movie');
-    expect(category.description).toBeNull();
 
-    category = new Category({
-      name: 'movie',
-      description: 'some description',
+    it('should a valid category', () => {
+      expect.assertions(0);
+      const category = new Category({ name: 'Movie' });
+      category.update('name changed', null);
+      category.update('name changed', 'some description');
     });
-    expect(category.description).toBe('some description');
-
-    category = new Category({
-      name: 'movie',
-    });
-    category['description'] = 'other description';
-    expect(category.description).toBe('other description');
-
-    category['description'] = undefined;
-    expect(category.description).toBeNull();
-  });
-
-  test('getter and setter of is_active props', () => {
-    let category = new Category({
-      name: 'movie',
-    });
-    expect(category.name).toBe('movie');
-    expect(category.is_active).toBeTruthy();
-
-    category = new Category({
-      name: 'movie',
-      is_active: false,
-    });
-    expect(category.is_active).toBeFalsy();
-
-    category = new Category({
-      name: 'movie',
-    });
-    category['is_active'] = false;
-    expect(category.is_active).toBeFalsy();
-
-    category = new Category({
-      name: 'movie',
-    });
-    category['is_active'] = undefined;
-    expect(category.is_active).toBeTruthy();
-  });
-
-  test('getter of created_at props', () => {
-    let category = new Category({
-      name: 'movie',
-    });
-    expect(category.created_at).toBeInstanceOf(Date);
-
-    const created_at = new Date();
-
-    category = new Category({
-      name: 'movie',
-      created_at,
-    });
-    expect(category.created_at).toBe(created_at);
-  });
-
-  it('should update a category', () => {
-    const category = new Category({ name: 'Movie' });
-    category.update('Documentary', 'some description');
-    expect(Category.validate).toHaveBeenCalledTimes(1);
-    expect(category.name).toBe('Documentary');
-    expect(category.description).toBe('some description');
-  });
-
-  it('should active a category', () => {
-    const category = new Category({
-      name: 'Filmes',
-      is_active: false,
-    });
-    category.activate();
-    expect(category.is_active).toBeTruthy();
-  });
-
-  test('should disable a category', () => {
-    const category = new Category({
-      name: 'Filmes',
-      is_active: true,
-    });
-    category.deactivate();
-    expect(category.is_active).toBeFalsy();
   });
 });
+
+// describe("Category Integration Tests", () => {
+//   describe("create method", () => {
+//     it("should a invalid category using name property", () => {
+//       expect(() => new Category({ name: null })).toThrow(
+//         new ValidationError("The name is required")
+//       );
+
+//       expect(() => new Category({ name: "" })).toThrow(
+//         new ValidationError("The name is required")
+//       );
+
+//       expect(() => new Category({ name: 5 as any })).toThrow(
+//         new ValidationError("The name must be a string")
+//       );
+
+//       expect(() => new Category({ name: "t".repeat(256) })).toThrow(
+//         new ValidationError(
+//           "The name must be less or equal than 255 characters"
+//         )
+//       );
+//     });
+
+//     it("should a invalid category using description property", () => {
+//       expect(
+//         () => new Category({ name: "Movie", description: 5 as any })
+//       ).toThrow(new ValidationError("The description must be a string"));
+//     });
+
+//     it("should a invalid category using is_active property", () => {
+//       expect(
+//         () => new Category({ name: "Movie", is_active: "" as any })
+//       ).toThrow(new ValidationError("The is_active must be a boolean"));
+//     });
+
+//     it("should a valid category", () => {
+//       expect.assertions(0);
+
+//       new Category({ name: "Movie" }); // NOSONAR
+//       new Category({ name: "Movie", description: "some description" }); // NOSONAR
+//       new Category({ name: "Movie", description: null }); // NOSONAR
+
+//       /* NOSONAR*/ new Category({
+//         name: "Movie",
+//         description: "some description",
+//         is_active: false,
+//       });
+//       /* NOSONAR */ new Category({
+//         name: "Movie",
+//         description: "some description",
+//         is_active: true,
+//       });
+//     });
+//   });
+
+//   describe("update method", () => {
+//     it("should a invalid category using name property", () => {
+//       const category = new Category({ name: "Movie" });
+//       expect(() => category.update(null, null)).toThrow(
+//         new ValidationError("The name is required")
+//       );
+
+//       expect(() => category.update("", null)).toThrow(
+//         new ValidationError("The name is required")
+//       );
+
+//       expect(() => category.update(5 as any, null)).toThrow(
+//         new ValidationError("The name must be a string")
+//       );
+
+//       expect(() => category.update("t".repeat(256), null)).toThrow(
+//         new ValidationError(
+//           "The name must be less or equal than 255 characters"
+//         )
+//       );
+//     });
+
+//     it("should a invalid category using description property", () => {
+//       const category = new Category({ name: "Movie" });
+//       expect(() => category.update("Movie", 5 as any)).toThrow(
+//         new ValidationError("The description must be a string")
+//       );
+//     });
+
+//     it("should a valid category", () => {
+//       expect.assertions(0);
+//       const category = new Category({ name: "Movie" });
+//       category.update("name changed", null);
+//       category.update("name changed", "some description");
+//     });
+//   });
+// });
