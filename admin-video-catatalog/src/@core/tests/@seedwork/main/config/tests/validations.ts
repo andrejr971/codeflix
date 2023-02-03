@@ -1,7 +1,8 @@
-import { EntityValidationError } from '@core/src/@seedwork/errors';
-import { ClassValidatorFields } from '@core/src/@seedwork/validators/class-validator-fields';
-import { FieldsErrors } from '@core/src/@seedwork/validators/validator-fields-interface';
-
+import {
+  ClassValidatorFields,
+  EntityValidationError,
+  FieldsErrors,
+} from '@core/src/@seedwork/domain';
 const { objectContaining } = expect;
 
 type Expected =

@@ -1,5 +1,4 @@
-import { UniqueEntityId } from '@core/src/@seedwork/domain/value-objects/unique-entity-id.vo';
-import { Entity } from '@core/src/@seedwork/entities/entity';
+import { Entity, UniqueEntityId } from '@core/src/@seedwork/domain';
 
 class StubEntity extends Entity<{ prop1: string; prop2: number }> {}
 

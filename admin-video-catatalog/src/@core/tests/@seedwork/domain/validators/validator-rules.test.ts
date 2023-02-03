@@ -1,5 +1,4 @@
-import { ValidationError } from '@core/src/@seedwork/validators/validation-error';
-import { ValidatorRules } from '@core/src/@seedwork/validators/validator-rules';
+import { ValidationError, ValidatorRules } from '@core/src/@seedwork/domain';
 
 type Values = {
   value: any;

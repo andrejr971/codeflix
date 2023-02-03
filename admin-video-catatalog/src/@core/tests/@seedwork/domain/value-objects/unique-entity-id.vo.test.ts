@@ -1,5 +1,4 @@
-import { UniqueEntityId } from '@core/src/@seedwork/domain/value-objects/unique-entity-id.vo';
-import { InvalidUuidError } from '@core/src/@seedwork/errors/invalid-uuid.error';
+import { UniqueEntityId, InvalidUuidError } from '@core/src/@seedwork/domain';
 
 let validateSpy: any;
 describe('UniqueentityId Unit Test', () => {

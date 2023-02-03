@@ -1,6 +1,6 @@
 import { omit } from 'lodash';
 
-import { UniqueEntityId } from '@core/src/@seedwork/domain/value-objects/unique-entity-id.vo';
+import { UniqueEntityId } from '@core/src/@seedwork/domain';
 import {
   Category,
   CategoryProps,

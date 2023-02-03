@@ -1,5 +1,3 @@
-//import ValidationError from "../../../@seedwork/domain/errors/validation-error";
-
 import { Category } from '@core/src/category/domain/entities/category';
 
 describe('Category Integration Tests', () => {

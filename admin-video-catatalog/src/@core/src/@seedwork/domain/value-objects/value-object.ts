@@ -1,4 +1,4 @@
-import { deepFreeze } from '../../utils/object';
+import { deepFreeze } from '@core/src/@seedwork/domain';
 
 export abstract class ValueObject<Value = any> {
   protected readonly _value: Value;

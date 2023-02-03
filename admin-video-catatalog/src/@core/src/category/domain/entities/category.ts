@@ -1,6 +1,8 @@
-import { UniqueEntityId } from '@core/src/@seedwork/domain/value-objects/unique-entity-id.vo';
-import { Entity } from '@core/src/@seedwork/entities/entity';
-import { EntityValidationError } from '@core/src/@seedwork/errors';
+import {
+  Entity,
+  UniqueEntityId,
+  EntityValidationError,
+} from '@core/src/@seedwork/domain';
 import { CategoryValidatorFactory } from '../../main/factories/category-factory';
 
 export type CategoryProps = {

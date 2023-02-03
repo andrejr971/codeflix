@@ -1,6 +1,6 @@
-import { UniqueEntityId } from '../domain/value-objects/unique-entity-id.vo';
+import { UniqueEntityId } from '@core/src/@seedwork/domain';
 
-export abstract class Entity<Props> {
+export abstract class Entity<Props = any> {
   public readonly uniqueEntityId: UniqueEntityId;
 
   constructor(public readonly props: Props, id?: UniqueEntityId) {
