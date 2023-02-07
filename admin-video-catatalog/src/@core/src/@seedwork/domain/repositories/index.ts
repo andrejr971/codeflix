@@ -1,1 +1,2 @@
-export * from './respository-contracts';
+export * from './respository';
+export * from './in-memory-repository';
