@@ -7,7 +7,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { CategoryProps } from '../entities/category';
+import { CategoryProps } from '@core/src/category/domain';
 
 export class CategoryRules {
   @MaxLength(255)

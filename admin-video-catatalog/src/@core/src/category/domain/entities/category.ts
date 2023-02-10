@@ -3,7 +3,7 @@ import {
   UniqueEntityId,
   EntityValidationError,
 } from '@core/src/@seedwork/domain';
-import { CategoryValidatorFactory } from '../../main/factories/category-factory';
+import { CategoryValidatorFactory } from '@core/src/category/main';
 
 export type CategoryProps = {
   name: string;

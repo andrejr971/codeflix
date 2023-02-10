@@ -1,8 +1,5 @@
-import {
-  CategoryValidator,
-  CategoryRules,
-} from '@core/src/category/domain/validators';
-import { CategoryValidatorFactory } from '@core/src/category/main/factories/category-factory';
+import { CategoryValidator, CategoryRules } from '@core/src/category/domain';
+import { CategoryValidatorFactory } from '@core/src/category/main';
 
 describe('CategoryValidator Tests', () => {
   let validator: CategoryValidator;

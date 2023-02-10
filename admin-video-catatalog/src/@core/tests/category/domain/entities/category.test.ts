@@ -1,4 +1,4 @@
-import { Category } from '@core/src/category/domain/entities/category';
+import { Category } from '@core/src/category/domain';
 
 describe('Category Integration Tests', () => {
   describe('create method', () => {

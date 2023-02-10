@@ -3,7 +3,7 @@ import {
   SearchParams,
   SearchResult,
 } from '@core/src/@seedwork/domain';
-import { Category } from '../entities/category';
+import { Category } from '@core/src/category/domain';
 
 export namespace CategoryRepository {
   export type Filter = string;
