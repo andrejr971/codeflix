@@ -11,9 +11,11 @@ export interface RepositoryInterface<T extends Entity> {
 
 export interface SearchableRepositoryInterface<
   T extends Entity,
+  Filter = string,
   Params = SearchParams,
-  Response = SearchResult,
+  Response = SearchResult<T, Filter>,
 > extends RepositoryInterface<T> {
+  sortableFields: string[];
   search(params: Params): Promise<Response>;
 }
 
@@ -139,7 +141,7 @@ export class SearchResult<T extends Entity = Entity, Filter = string> {
     this.filter = props.filter;
   }
 
-  toJSON(forceEntity = false) {
+  toJson(forceEntity = false) {
     return {
       data: forceEntity ? this.data.map((item) => item.toJson()) : this.data,
       total: this.total,

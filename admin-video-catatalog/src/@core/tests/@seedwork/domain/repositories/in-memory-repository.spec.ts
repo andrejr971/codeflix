@@ -25,7 +25,7 @@ describe('InMemoryRepository Unit Tests', () => {
     const entity = new StubEntity({ name: 'name', price: 2.99 });
     await repository.create(entity);
 
-    expect(entity.toJson()).toEqual(repository.items[0].toJson());
+    expect(entity.toJson()).toEqual(repository.data[0].toJson());
   });
 
   it('should throws error when entity not found', () => {
@@ -80,7 +80,7 @@ describe('InMemoryRepository Unit Tests', () => {
       entity.uniqueEntityId,
     );
     await repository.update(entityUpdated);
-    expect(entityUpdated.toJson()).toStrictEqual(repository.items[0].toJson());
+    expect(entityUpdated.toJson()).toStrictEqual(repository.data[0].toJson());
   });
 
   it('should throws error on delete when entity not found', () => {
@@ -104,11 +104,11 @@ describe('InMemoryRepository Unit Tests', () => {
     await repository.create(entity);
 
     await repository.delete(entity.id);
-    expect(repository.items).toHaveLength(0);
+    expect(repository.data).toHaveLength(0);
 
     await repository.create(entity);
 
     await repository.delete(entity.uniqueEntityId);
-    expect(repository.items).toHaveLength(0);
+    expect(repository.data).toHaveLength(0);
   });
 });

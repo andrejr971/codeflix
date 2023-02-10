@@ -154,7 +154,7 @@ describe('Search Unit Tests', () => {
         filter: null,
       });
 
-      expect(result.toJSON()).toStrictEqual({
+      expect(result.toJson()).toStrictEqual({
         data: ['entity1', 'entity2'] as any,
         total: 4,
         current_page: 1,
@@ -175,7 +175,7 @@ describe('Search Unit Tests', () => {
         filter: 'test',
       });
 
-      expect(result.toJSON()).toStrictEqual({
+      expect(result.toJson()).toStrictEqual({
         data: ['entity1', 'entity2'] as any,
         total: 4,
         current_page: 1,
