@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "ts-node",
     "tsc": "tsc",
+    "tsc:check": "tsc --noEmit",
     "clean:tsc": "rm tsconfig.tsbuildinfo",
     "lint": "eslint . --ext src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

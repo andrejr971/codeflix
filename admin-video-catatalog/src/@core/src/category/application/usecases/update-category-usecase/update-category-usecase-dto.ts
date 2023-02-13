@@ -1,7 +1,7 @@
 import { CategoryDTO } from '../../dtos';
 
-export namespace GetCategoryByIdUseCaseDTO {
-  export type Params = {
+export namespace UpdateCategoryUseCaseDTO {
+  export type Params = CategoryDTO.Params & {
     id: string;
   };
 
