@@ -1,4 +1,4 @@
-import { UniqueEntityId, InvalidUuidError } from '@core/src/@seedwork/domain';
+import { UniqueEntityId, InvalidUuidError } from '#seedwork/domain';
 
 let validateSpy: any;
 describe('UniqueentityId Unit Test', () => {

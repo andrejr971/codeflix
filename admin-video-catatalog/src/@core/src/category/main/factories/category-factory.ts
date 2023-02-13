@@ -1,4 +1,4 @@
-import { CategoryValidator } from '@core/src/category/domain';
+import { CategoryValidator } from '#category/domain';
 
 export class CategoryValidatorFactory {
   static create() {

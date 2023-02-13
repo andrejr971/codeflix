@@ -1,6 +1,6 @@
-import { UseCase } from '@core/src/@seedwork/application';
-import { CategoryRepository } from '@core/src/category/domain';
-import { CategoryResponseMapper } from '@core/src/category/application';
+import { UseCase } from '#seedwork/application';
+import { CategoryRepository } from '#category/domain';
+import { CategoryResponseMapper } from '#category/application';
 import { GetCategoryByIdUseCaseDTO } from './get-category-by-id-usecase-dto';
 
 export class GetCategoryByIdUseCase

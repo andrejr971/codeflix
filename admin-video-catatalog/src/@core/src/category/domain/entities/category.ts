@@ -2,8 +2,8 @@ import {
   Entity,
   UniqueEntityId,
   EntityValidationError,
-} from '@core/src/@seedwork/domain';
-import { CategoryValidatorFactory } from '@core/src/category/main';
+} from '#seedwork/domain';
+import { CategoryValidatorFactory } from '#category/main';
 
 export type CategoryProps = {
   name: string;

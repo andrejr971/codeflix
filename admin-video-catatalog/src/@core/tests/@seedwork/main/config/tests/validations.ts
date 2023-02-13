@@ -2,7 +2,7 @@ import {
   ClassValidatorFields,
   EntityValidationError,
   FieldsErrors,
-} from '@core/src/@seedwork/domain';
+} from '#seedwork/domain';
 const { objectContaining } = expect;
 
 type Expected =

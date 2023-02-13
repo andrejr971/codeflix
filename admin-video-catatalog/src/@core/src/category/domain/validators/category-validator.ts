@@ -1,4 +1,4 @@
-import { ClassValidatorFields } from '@core/src/@seedwork/domain';
+import { ClassValidatorFields } from '#seedwork/domain';
 import {
   IsBoolean,
   IsDate,
@@ -7,7 +7,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { CategoryProps } from '@core/src/category/domain';
+import { CategoryProps } from '#category/domain';
 
 export class CategoryRules {
   @MaxLength(255)

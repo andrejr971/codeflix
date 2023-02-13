@@ -1,5 +1,5 @@
-import { UseCase } from '@core/src/@seedwork/application';
-import { CategoryRepository } from '@core/src/category/domain';
+import { UseCase } from '#seedwork/application';
+import { CategoryRepository } from '#category/domain';
 import { DeleteCategoryUseCaseDTO } from './delete-category-usecase-dto';
 
 export class DeleteCategoryUseCase

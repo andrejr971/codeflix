@@ -1,4 +1,4 @@
-import { SearchParams, SearchResult } from '@core/src/@seedwork/domain';
+import { SearchParams, SearchResult } from '#seedwork/domain';
 
 describe('Search Unit Tests', () => {
   describe('SearchParams Unit Tests', () => {

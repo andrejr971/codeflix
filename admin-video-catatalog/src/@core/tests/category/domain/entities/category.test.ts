@@ -1,4 +1,4 @@
-import { Category } from '@core/src/category/domain';
+import { Category } from '#category/domain';
 
 describe('Category Integration Tests', () => {
   describe('create method', () => {

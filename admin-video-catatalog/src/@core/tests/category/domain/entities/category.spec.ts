@@ -1,7 +1,7 @@
 import { omit } from 'lodash';
 
-import { UniqueEntityId } from '@core/src/@seedwork/domain';
-import { Category, CategoryProps } from '@core/src/category/domain';
+import { UniqueEntityId } from '#seedwork/domain';
+import { Category, CategoryProps } from '#category/domain';
 
 describe('Category unit test', () => {
   beforeEach(() => {

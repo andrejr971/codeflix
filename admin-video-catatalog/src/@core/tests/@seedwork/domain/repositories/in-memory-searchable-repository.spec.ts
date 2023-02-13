@@ -3,7 +3,7 @@ import {
   InMemorySearchableRepository,
   SearchParams,
   SearchResult,
-} from '@core/src/@seedwork/domain';
+} from '#seedwork/domain';
 
 type StubEntityProps = {
   name: string;

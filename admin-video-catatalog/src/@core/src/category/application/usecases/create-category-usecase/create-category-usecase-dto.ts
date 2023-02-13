@@ -1,4 +1,4 @@
-import { CategoryDTO } from '@core/src/category/application';
+import { CategoryDTO } from '#category/application';
 
 export namespace CreateCategoryUseCaseDTO {
   export type Params = CategoryDTO.Params;

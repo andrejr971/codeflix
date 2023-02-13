@@ -1,4 +1,4 @@
-import { ValueObject } from '@core/src/@seedwork/domain';
+import { ValueObject } from '#seedwork/domain';
 
 class StubValueObject extends ValueObject {}
 

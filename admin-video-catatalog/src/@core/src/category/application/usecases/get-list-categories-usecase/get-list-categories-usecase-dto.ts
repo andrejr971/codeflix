@@ -1,7 +1,4 @@
-import {
-  PaginationResponseDTO,
-  SearchParamsDTO,
-} from '@core/src/@seedwork/application';
+import { PaginationResponseDTO, SearchParamsDTO } from '#seedwork/application';
 import { CategoryDTO } from '../../dtos';
 
 export namespace GetListCategoriesUseCaseDTO {

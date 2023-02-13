@@ -1,8 +1,5 @@
-import {
-  PaginationResponseMapper,
-  UseCase,
-} from '@core/src/@seedwork/application';
-import { CategoryRepository } from '@core/src/category/domain';
+import { PaginationResponseMapper, UseCase } from '#seedwork/application';
+import { CategoryRepository } from '#category/domain';
 import { CategoryResponseMapper } from '../../dtos';
 import { GetListCategoriesUseCaseDTO } from './get-list-categories-usecase-dto';
 

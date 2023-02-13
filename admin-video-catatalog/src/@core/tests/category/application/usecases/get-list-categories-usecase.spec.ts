@@ -1,6 +1,6 @@
-import { GetListCategoriesUseCase } from '@core/src/category/application';
-import { Category, CategoryRepository } from '@core/src/category/domain';
-import { CategoryInMemoryRepository } from '@core/src/category/infra';
+import { GetListCategoriesUseCase } from '#category/application';
+import { Category, CategoryRepository } from '#category/domain';
+import { CategoryInMemoryRepository } from '#category/infra';
 
 describe('GetListCategoriesUseCase Unit Tests', () => {
   let useCase: GetListCategoriesUseCase;

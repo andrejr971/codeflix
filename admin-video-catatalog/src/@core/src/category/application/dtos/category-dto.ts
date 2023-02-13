@@ -1,4 +1,4 @@
-import { Category } from '@core/src/category/domain';
+import { Category } from '#category/domain';
 
 export namespace CategoryDTO {
   export type Params = {

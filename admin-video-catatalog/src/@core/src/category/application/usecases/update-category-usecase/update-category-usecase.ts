@@ -1,5 +1,5 @@
-import { UseCase } from '@core/src/@seedwork/application';
-import { CategoryRepository } from '@core/src/category/domain';
+import { UseCase } from '#seedwork/application';
+import { CategoryRepository } from '#category/domain';
 import { CategoryDTO, CategoryResponseMapper } from '../../dtos';
 import { UpdateCategoryUseCaseDTO } from './update-category-usecase-dto';
 

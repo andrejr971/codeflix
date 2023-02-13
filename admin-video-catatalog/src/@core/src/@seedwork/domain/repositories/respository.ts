@@ -1,4 +1,4 @@
-import { Entity, UniqueEntityId } from '@core/src/@seedwork/domain';
+import { Entity, UniqueEntityId } from '#seedwork/domain';
 
 export interface RepositoryInterface<T extends Entity> {
   create(entity: T): Promise<void>;

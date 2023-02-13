@@ -1,4 +1,4 @@
-import { ClassValidatorFields } from '@core/src/@seedwork/domain';
+import { ClassValidatorFields } from '#seedwork/domain';
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
 class StubRules {

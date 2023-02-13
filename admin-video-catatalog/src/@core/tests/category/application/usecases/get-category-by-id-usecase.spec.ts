@@ -1,7 +1,7 @@
-import { NotFoundError } from '@core/src/@seedwork/domain';
-import { GetCategoryByIdUseCase } from '@core/src/category/application';
-import { Category } from '@core/src/category/domain';
-import { CategoryInMemoryRepository } from '@core/src/category/infra';
+import { NotFoundError } from '#seedwork/domain';
+import { GetCategoryByIdUseCase } from '#category/application';
+import { Category } from '#category/domain';
+import { CategoryInMemoryRepository } from '#category/infra';
 
 describe('Create category usecase unit test', () => {
   let useCase: GetCategoryByIdUseCase;

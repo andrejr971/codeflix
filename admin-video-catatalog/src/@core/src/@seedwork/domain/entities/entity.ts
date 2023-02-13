@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@core/src/@seedwork/domain';
+import { UniqueEntityId } from '#seedwork/domain';
 
 export abstract class Entity<Props = any> {
   public readonly uniqueEntityId: UniqueEntityId;

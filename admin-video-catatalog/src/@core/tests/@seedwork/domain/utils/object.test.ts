@@ -1,4 +1,4 @@
-import { deepFreeze } from '@core/src/@seedwork/domain';
+import { deepFreeze } from '#seedwork/domain';
 
 describe('Object unite test', () => {
   it('should not freeze a scalar value', () => {
