@@ -1,4 +1,4 @@
-export * from './usecases-interface';
+// created from 'create-ts-index'
 
-export * from './dtos/search-params-dto';
-export * from './dtos/pagination-response-dto';
+export * from './dtos';
+export * from './usecases-interface';
