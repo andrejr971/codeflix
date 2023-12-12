@@ -1,4 +1,4 @@
-import { Entity } from "../enitity";
+import { Entity } from "../entity";
 import { ValueObject } from "../value-object";
 
 export interface IRepository<T extends Entity, EntityId extends ValueObject> {
@@ -10,5 +10,5 @@ export interface IRepository<T extends Entity, EntityId extends ValueObject> {
   findById(entity_id: EntityId): Promise<T | null>;
   findAll(): Promise<T[]>;
 
-  getEntity: new (...args: any[]) => T
+  getEntity(): new (...args: any[]) => T;
 }

@@ -1,4 +1,4 @@
-import { Entity } from "../../shared/domain/enitity";
+import { Entity } from "../../shared/domain/entity";
 import { ValueObject } from "../../shared/domain/value-object";
 import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
 import { EntityValidationError } from "../../shared/domain/validators/validation.error";
