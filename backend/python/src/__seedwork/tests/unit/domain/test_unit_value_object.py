@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 import uuid
 
-from __seedwork.domain.value_object import UniqueEntityId, ValueObject
+from __seedwork.domain.value_objects import UniqueEntityId, ValueObject
 from __seedwork.domain.exceptions import InvalidUuidException
 
 
