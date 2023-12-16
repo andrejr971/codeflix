@@ -1,12 +1,26 @@
 
-from dataclasses import dataclass, field
+from abc import ABC
+from dataclasses import dataclass, field, fields
+import json
 import uuid
 
 from __seedwork.domain.exceptions import InvalidUuidException
 
 
+@dataclass(frozen=True, slots=True)
+class ValueObject(ABC):
+
+    def __str__(self) -> str:
+        fields_name = [field.name for field in fields(self)]
+        print(len(fields_name))
+        return str(getattr(self, fields_name[0])) \
+            if len(fields_name) == 1 \
+            else json.dumps({field_name: getattr(self, field_name) for field_name in fields_name})
+
+
 @dataclass(frozen=True)
-class UniqueEntityId:
+class UniqueEntityId(ValueObject):
+
     id: str = field(
         default_factory=lambda: str(uuid.uuid4())
     )
