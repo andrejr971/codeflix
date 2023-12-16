@@ -1,0 +1,136 @@
+[
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "field",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "field",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "is_dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "InvalidUuidException",
+        "importPath": "__seedwork.domain.exceptions",
+        "description": "__seedwork.domain.exceptions",
+        "isExtraImport": true,
+        "detail": "__seedwork.domain.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "unittest",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "unittest",
+        "description": "unittest",
+        "detail": "unittest",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "category.domain.entities",
+        "description": "category.domain.entities",
+        "isExtraImport": true,
+        "detail": "category.domain.entities",
+        "documentation": {}
+    },
+    {
+        "label": "InvalidUuidException",
+        "kind": 6,
+        "importPath": "src.__seedwork.domain.exceptions",
+        "description": "src.__seedwork.domain.exceptions",
+        "peekOfCode": "class InvalidUuidException(Exception):\n    def __init__(self, error='ID must be a valid UUID') -> None:\n        super().__init__(error)",
+        "detail": "src.__seedwork.domain.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "UniqueEnityId",
+        "kind": 6,
+        "importPath": "src.__seedwork.domain.value-objects",
+        "description": "src.__seedwork.domain.value-objects",
+        "peekOfCode": "class UniqueEnityId:\n    id: str = field(\n        default_factory=lambda: str(uuid.uuid4())\n    )\n    def __validate(self):\n        try:\n            uuid.UUID(self.id)\n        except ValueError as exception:\n            raise InvalidUuidException() from exception",
+        "detail": "src.__seedwork.domain.value-objects",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "kind": 6,
+        "importPath": "src.category.domain.entities",
+        "description": "src.category.domain.entities",
+        "peekOfCode": "class Category:\n    id: uuid.UUId = field(\n        default_factory=lambda: uuid.uuid4()\n    )\n    name: str\n    description: Optional[str] = None\n    is_active: Optional[bool] = True\n    created_at: Optional[datetime] = field(\n        default_factory=lambda: datetime.now()\n    )",
+        "detail": "src.category.domain.entities",
+        "documentation": {}
+    },
+    {
+        "label": "TestCategoryUnit",
+        "kind": 6,
+        "importPath": "src.category.tests.unit.domain.test_unit_entities",
+        "description": "src.category.tests.unit.domain.test_unit_entities",
+        "peekOfCode": "class TestCategoryUnit(unittest.TestCase):\n    def test_if_is_a_dataclass(self):\n        self.assertTrue(is_dataclass(Category))\n    def test_constructor(self):\n        category = Category(name=\"Movie\")\n        self.assertEqual(category.name, 'Movie')\n        self.assertEqual(category.description,  None)\n        self.assertEqual(category.is_active, True)\n        self.assertIsInstance(category.created_at, datetime)\n        created_at = datetime.now()",
+        "detail": "src.category.tests.unit.domain.test_unit_entities",
+        "documentation": {}
+    }
+]
