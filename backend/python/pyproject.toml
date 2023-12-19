@@ -11,3 +11,8 @@ license = { text = "MIT" }
 
 [tool.pdm]
 package-type = "application"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.4.3",
+]
