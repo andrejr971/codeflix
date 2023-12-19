@@ -1,0 +1,4 @@
+[MASTER]
+ignore=.venv/**/*.py
+disable=C0111
+extension-pkg-allow-list=dependency_injector

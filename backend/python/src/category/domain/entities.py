@@ -11,6 +11,7 @@ class Category(Entity):
     name: str
     description: Optional[str] = None
     is_active: Optional[bool] = True
+    # pylint: disable=unnecessary-lambda
     created_at: Optional[datetime] = field(
         default_factory=lambda: datetime.now()
     )

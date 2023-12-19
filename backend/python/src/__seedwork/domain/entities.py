@@ -6,6 +6,7 @@ from __seedwork.domain.value_objects import UniqueEntityId
 
 @dataclass(frozen=True)
 class Entity(ABC):
+    # pylint: disable=unnecessary-lambda
     unique_entity_id: UniqueEntityId = field(
         default_factory=lambda: UniqueEntityId()
     )

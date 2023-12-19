@@ -20,12 +20,12 @@ class ValueObject(ABC):
 
 @dataclass(frozen=True)
 class UniqueEntityId(ValueObject):
-
     id: str = field(
         default_factory=lambda: str(uuid.uuid4())
     )
 
     def __post_init__(self):
+        # pylint: disable=redefined-builtin
         id = str(self.id) if isinstance(
             self.id, uuid.UUID
         ) else self.id

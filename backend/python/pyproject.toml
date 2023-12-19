@@ -1,0 +1,13 @@
+[project]
+name = "python"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [{ name = "André Junior", email = "andrejunior179@gmail.com" }]
+dependencies = []
+requires-python = "==3.11.*"
+readme = "README.md"
+license = { text = "MIT" }
+
+
+[tool.pdm]
+package-type = "application"
