@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from __seedwork.domain.entities import Entity
+from __seedwork.domain.validators import ValidatorRules
 
 
 @dataclass(kw_only=True, frozen=True, slots=True)  # init, repr, eq
@@ -16,7 +17,20 @@ class Category(Entity):
         default_factory=lambda: datetime.now()
     )
 
+    # def __post_init__(self):
+    #     if not self.created_at:
+    #         self._set('created_at', datetime.now(datetime.timezone.utc))
+
+    def __new__(cls, **kwargs):  # constructor
+        cls.validate(
+            name=kwargs.get('name'),
+            description=kwargs.get('description'),
+            is_active=kwargs.get('is_active')
+        )
+        return super(Category, cls).__new__(cls)
+
     def update(self, name: str, description: Optional[str] = None):
+        self.validate(name, description)
         self._set('name', name)
         self._set('description', description)
 
@@ -26,5 +40,11 @@ class Category(Entity):
     def deactivate(self):
         self._set('is_active', False)
 
-    def validate(self):
-        pass
+    @classmethod
+    def validate(cls, name: str, description: str, is_active: bool = None):
+        ValidatorRules.values(name, 'name').required().string().max_length(255)
+        ValidatorRules.values(
+            description,
+            'description'
+        ).string()
+        ValidatorRules.values(is_active, 'is_active').boolean()
