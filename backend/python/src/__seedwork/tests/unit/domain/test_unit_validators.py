@@ -178,3 +178,16 @@ class TestValidatorRules(unittest.TestCase):
             'The prop must be a boolean',
             assert_error.exception.args[0],
         )
+
+    def test_valid_cases_for_combination_between_rules(self):
+        ValidatorRules.values('test', 'prop').required().string()
+        ValidatorRules.values(
+            't' * 5,
+            'prop'
+        ).required().string().max_length(5)
+
+        ValidatorRules.values(True, 'prop').required().boolean()
+        ValidatorRules.values(False, 'prop').required().boolean()
+
+        # pylint: disable=redundant-unittest-assert
+        self.assertTrue(True)
