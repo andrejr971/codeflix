@@ -25,3 +25,6 @@ class Category(Entity):
 
     def deactivate(self):
         self._set('is_active', False)
+
+    def validate(self):
+        pass
