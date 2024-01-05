@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, Generic, List, TypeVar
 from abc import ABC, abstractmethod
+from rest_framework.serializers import Serializer
 
 from .exceptions import ValidationException
 
@@ -50,3 +51,20 @@ class ValidatorFieldsInterface(ABC, Generic[PropsValidated]):
     @abstractmethod
     def validate(self, data: Any) -> bool:
         raise NotImplementedError()
+
+
+# Django
+class DRFValidator(ValidatorFieldsInterface[PropsValidated], ABC):
+
+    def validate(self, data: Serializer) -> bool:
+        serializer = data
+
+        if serializer.is_valid():
+            self.validated_data = serializer.validated_data
+            return True
+
+        self.errors = {
+            field: [str(_error) for _error in _errors]
+            for field, _errors in serializer.errors.items()
+        }
+        return False

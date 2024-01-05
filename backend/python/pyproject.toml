@@ -3,7 +3,9 @@ name = "python"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "André Junior", email = "andrejunior179@gmail.com" }]
-dependencies = []
+dependencies = [
+    "djangorestframework>=3.14.0",
+]
 requires-python = "==3.11.*"
 readme = "README.md"
 license = { text = "MIT" }
