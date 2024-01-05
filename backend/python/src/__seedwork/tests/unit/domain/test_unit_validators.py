@@ -196,7 +196,7 @@ class TestValidatorRules(unittest.TestCase):
         self.assertTrue(True)
 
 
-class TestValidatorFieldsInterface(unittest.TestCase):
+class TestValidatorFieldsInterfaceUnit(unittest.TestCase):
 
     def test_throw_error_when_validate_method_not_implemented(self):
         with self.assertRaises(TypeError) as assert_error:
@@ -219,7 +219,7 @@ class TestValidatorFieldsInterface(unittest.TestCase):
         self.assertIsNone(validated_data_field.default)
 
 
-class TestDRFValidator(unittest.TestCase):
+class TestDRFValidatorUnit(unittest.TestCase):
 
     @patch.object(Serializer, 'is_valid', return_value=True)
     @patch.object(
@@ -228,7 +228,11 @@ class TestDRFValidator(unittest.TestCase):
         return_value={'field': 'value'},
         new_callable=PropertyMock
     )
-    def test_if_validated_data_is_set(self,  mock_validated_data: PropertyMock, mock_is_valid: MagicMock):
+    def test_if_validated_data_is_set(
+        self,
+        mock_validated_data: PropertyMock,
+        mock_is_valid: MagicMock
+    ):  # pylint: disable=unused-argument
         validator = DRFValidator()
         is_valid = validator.validate(Serializer())
         self.assertTrue(is_valid)
@@ -242,7 +246,11 @@ class TestDRFValidator(unittest.TestCase):
         return_value={'field': ['some error']},
         new_callable=PropertyMock
     )
-    def test_if_errors_is_set(self, mock_errors: PropertyMock, mock_is_valid: MagicMock):
+    def test_if_errors_is_set(
+        self,
+        mock_errors: PropertyMock,
+        mock_is_valid: MagicMock
+    ):  # pylint: disable=unused-argument
         validator = DRFValidator()
         is_valid = validator.validate(Serializer())
         self.assertFalse(is_valid)

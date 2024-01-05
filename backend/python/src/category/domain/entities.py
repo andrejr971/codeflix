@@ -3,7 +3,8 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from __seedwork.domain.entities import Entity
-from __seedwork.domain.validators import ValidatorRules
+from __seedwork.domain.exceptions import EntityValidationException
+from category.domain.validators import CategoryValidatorFactory
 
 
 @dataclass(kw_only=True, frozen=True, slots=True)  # init, repr, eq
@@ -17,22 +18,24 @@ class Category(Entity):
         default_factory=lambda: datetime.now()
     )
 
-    # def __post_init__(self):
-    #     if not self.created_at:
-    #         self._set('created_at', datetime.now(datetime.timezone.utc))
+    def __post_init__(self):
+        if not self.created_at:
+            self._set('created_at', datetime.now(datetime.timezone.utc))
+        self.validate()
 
-    def __new__(cls, **kwargs):  # constructor
-        cls.validate(
-            name=kwargs.get('name'),
-            description=kwargs.get('description'),
-            is_active=kwargs.get('is_active')
-        )
-        return super(Category, cls).__new__(cls)
+    # def __new__(cls, **kwargs):  # constructor
+    #     cls.validate(
+    #         name=kwargs.get('name'),
+    #         description=kwargs.get('description'),
+    #         is_active=kwargs.get('is_active'),
+    #         created_at=kwargs.get('created_at')
+    #     )
+    #     return super(Category, cls).__new__(cls)
 
     def update(self, name: str, description: Optional[str] = None):
-        self.validate(name, description)
         self._set('name', name)
         self._set('description', description)
+        self.validate()
 
     def activate(self):
         self._set('is_active', True)
@@ -40,11 +43,33 @@ class Category(Entity):
     def deactivate(self):
         self._set('is_active', False)
 
-    @classmethod
-    def validate(cls, name: str, description: str, is_active: bool = None):
-        ValidatorRules.values(name, 'name').required().string().max_length(255)
-        ValidatorRules.values(
-            description,
-            'description'
-        ).string()
-        ValidatorRules.values(is_active, 'is_active').boolean()
+    def validate(self):
+        validator = CategoryValidatorFactory.create()
+        is_valid = validator.validate(self.to_dict())
+        if not is_valid:
+            raise EntityValidationException(validator.errors)
+
+    # @classmethod
+    # def validate(
+    #     cls,
+    #     name: str,
+    #     description: str,
+    #     is_active: bool = None,
+    #     created_at: datetime = None
+    # ):
+    #     validator = CategoryValidatorFactory.create()
+    #     is_valid = validator.validate({
+    #         'name': name,
+    #         'description': description,
+    #         'is_active': is_active,
+    #         'created_at': created_at
+    #     })
+
+    # @classmethod
+    # def validate(cls, name: str, description: str, is_active: bool = None):
+    #     ValidatorRules.values(name, 'name').required().string().max_length(255)
+    #     ValidatorRules.values(
+    #         description,
+    #         'description'
+    #     ).string()
+    #     ValidatorRules.values(is_active, 'is_active').boolean()
