@@ -32,6 +32,17 @@ class RepositoryInterface(Generic[T], ABC):
         raise NotImplementedError()
 
 
+Input = TypeVar('Input')
+Output = TypeVar('Output')
+
+
+class SearchableRepositoryInterface(Generic[T, Input, Output], RepositoryInterface[T], ABC):
+
+    @abc.abstractmethod
+    def search(self, input_params: Input) -> Output:
+        raise NotImplementedError()
+
+
 @dataclass(slots=True)
 class InMemoryRepository(RepositoryInterface[T], ABC):
     items: List[T] = field(default_factory=lambda: [])
