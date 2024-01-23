@@ -89,16 +89,43 @@ class TestUpdateCategory:
 class TestUpdateStatusIsActive:
     def test_update_is_active_to_true(self):
         category = Category(
-            name="Serie", description="some description", is_active=False)
-        category.actived()
+            name="Serie",
+            description="some description",
+            is_active=False
+        )
+        category.activate()
 
         assert category.is_active is True
 
     def test_update_is_active_to_false(self):
-        category = Category(name="Serie", description="some description")
-        category.desactived()
+        category = Category(
+            name="Serie",
+            description="some description"
+        )
+        category.desactivate()
 
         assert category.is_active is False
+
+
+class TestEquality:
+
+    def test_when_categories_have_same_id_they_are_equals(self):
+        common_id = uuid.uuid4()
+        category_1 = Category(name="Film", id=common_id)
+        category_2 = Category(name="Film", id=common_id)
+
+        assert category_1 == category_2
+
+    def test_equality_different_classes(self):
+        class Dummy:
+            pass
+
+        common_id = uuid.uuid4()
+        category_1 = Category(name="Film", id=common_id)
+        dummy = Dummy()
+        dummy.id = common_id  # pylint: disable=attribute-defined-outside-init
+
+        assert category_1 != dummy
 
 # if __name__ == "__main__":
 #     unittest.main()
