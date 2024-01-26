@@ -53,4 +53,4 @@ class Category:
             raise ValueError("name cannot be longer 255")
 
         if not self.name:  # len(self.name == 0):
-            raise ValueError("name cannot empty")
+            raise ValueError("name cannot be empty")

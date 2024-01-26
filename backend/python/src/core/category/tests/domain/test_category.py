@@ -60,7 +60,7 @@ class TestCategory:
         assert repr(category) == f"<Category movie ({category_id})>"
 
     def test_cannot_create_category_with_empty_name(self):
-        with pytest.raises(ValueError, match="name cannot empty"):
+        with pytest.raises(ValueError, match="name cannot be empty"):
             Category(name="")
 
 
@@ -82,7 +82,7 @@ class TestUpdateCategory:
     def test_cannot_update_category_with_empty_name(self):
         category = Category(name="Serie", description="some description")
 
-        with pytest.raises(ValueError, match="name cannot empty"):
+        with pytest.raises(ValueError, match="name cannot be empty"):
             category.update(name="" * 256, description="")
 
 
