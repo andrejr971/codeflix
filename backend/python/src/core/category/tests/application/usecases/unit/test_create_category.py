@@ -1,11 +1,10 @@
 from unittest.mock import MagicMock
-from uuid import UUID
 
 import pytest
 from src.core.category.application.category_repository import CategoryRepository
 
 # pylint: disable=line-too-long
-from src.core.category.application.usecases.create_category import CreateCategory, CreateCategoryRequest
+from src.core.category.application.usecases.create_category import CreateCategory, CreateCategoryRequest, CreateCategoryResponse
 from src.core.category.domain.exceptions import InvalidCategoryData
 
 
@@ -24,7 +23,7 @@ class TestCreateCategory:
         category_id = use_case.execute(request)
 
         assert category_id is not None
-        assert isinstance(category_id, UUID)
+        assert isinstance(category_id, CreateCategoryResponse)
         assert mock_repository.save.called is True
 
     def test_create_category_with_invalid_data(self):
