@@ -1,6 +1,8 @@
 from src.core.category.domain.category import Category
 from src.core.category.infra.repositories.in_memory_category_repository import InMemoryCategoryRepository
 
+# pylint: disable=abstract-class-instantiated
+
 
 class TestSave:
     def test_can_save_category(self):
