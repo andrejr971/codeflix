@@ -1,5 +1,4 @@
+venv
 __pycache__
-.venv
 .pytest_cache
-*.pyc
-htmlcov
+db.sqlite3
