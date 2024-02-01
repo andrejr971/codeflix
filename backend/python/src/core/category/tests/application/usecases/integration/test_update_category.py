@@ -6,7 +6,7 @@ from src.core.category.infra.repositories.in_memory_category_repository import I
 class TestUpdateCategory:
     def test_can_update_category_name_and_description(self):
         category = Category(
-            name="Film",
+            name="Movie",
             description="some description",
         )
         repository = InMemoryCategoryRepository()

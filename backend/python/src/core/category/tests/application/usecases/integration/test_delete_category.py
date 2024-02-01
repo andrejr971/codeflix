@@ -6,7 +6,7 @@ from src.core.category.infra.repositories.in_memory_category_repository import I
 
 class TestDeleteCategory:
     def test_delete_category_from_repository(self):
-        category_filme = Category(
+        category_moviee = Category(
             id=uuid.uuid4(),
             name="Filme",
             description="Categoria para filmes",
@@ -20,16 +20,16 @@ class TestDeleteCategory:
         )
         repository = InMemoryCategoryRepository(
             categories=[
-                category_filme,
+                category_moviee,
                 category_serie,
             ]
         )
 
         use_case = DeleteCategory(repository=repository)
-        request = DeleteCategoryRequest(id=category_filme.id)
+        request = DeleteCategoryRequest(id=category_moviee.id)
 
-        assert repository.get_by_id(category_filme.id) is not None
+        assert repository.get_by_id(category_moviee.id) is not None
         response = use_case.execute(request)
 
-        assert repository.get_by_id(category_filme.id) is None
+        assert repository.get_by_id(category_moviee.id) is None
         assert response is None

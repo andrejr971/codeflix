@@ -28,7 +28,7 @@ class DjangoORMCategoryRepository(CategoryRepository):
                 is_active=category.is_active
             )
         except self.model.DoesNotExist:
-            raise ValueError("Category not found") from None
+            return None
 
     def delete(self, id: UUID) -> None:
         self.model.objects.filter(id=id).delete()

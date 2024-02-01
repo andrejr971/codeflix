@@ -15,7 +15,7 @@ class TestCreateCategory:
         use_case = CreateCategory(repository=repository)
 
         request = CreateCategoryRequest(
-            name="Film",
+            name="Movie",
             description="some description",
             is_active=True
         )
@@ -28,7 +28,7 @@ class TestCreateCategory:
 
         persisted_category = repository.categories[0]
         assert persisted_category.id == response.id
-        assert persisted_category.name == "Film"
+        assert persisted_category.name == "Movie"
         assert persisted_category.description == "some description"
         assert persisted_category.is_active
 

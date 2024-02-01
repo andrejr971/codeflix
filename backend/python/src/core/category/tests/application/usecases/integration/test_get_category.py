@@ -11,35 +11,35 @@ from src.core.category.infra.repositories.in_memory_category_repository import I
 class TestGetCategory:
 
     def test_get_category_by_id(self):
-        category_film = Category(name="Film", description="some description")
+        category_movie = Category(name="Movie", description="some description")
         category_serie = Category(name="Serie", description="some description")
 
         repository = InMemoryCategoryRepository(
-            categories=[category_film, category_serie]
+            categories=[category_movie, category_serie]
         )
 
         assert len(repository.categories) == 2
 
         use_case = GetCategory(repository=repository)
         request = GetCategoryRequest(
-            id=category_film.id
+            id=category_movie.id
         )
 
         response = use_case.execute(request)
 
         assert response == GetCategoryResponse(
-            id=category_film.id,
-            name="Film",
+            id=category_movie.id,
+            name="Movie",
             description="some description",
             is_active=True
         )
 
     def test_category_non_exists(self):
-        category_film = Category(name="Film", description="some description")
+        category_movie = Category(name="Movie", description="some description")
         category_serie = Category(name="Serie", description="some description")
 
         repository = InMemoryCategoryRepository(
-            categories=[category_film, category_serie]
+            categories=[category_movie, category_serie]
         )
 
         use_case = GetCategory(repository=repository)

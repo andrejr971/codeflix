@@ -19,12 +19,12 @@ class TestUpdateCategory:
         use_case = UpdateCategory(repository=mock_repository)
         request = UpdateCategoryRequest(
             id=category.id,
-            name="Film"
+            name="Movie"
         )
 
         use_case.execute(request=request)
 
-        assert category.name == "Film"
+        assert category.name == "Movie"
         assert category.description == "Categoria para filmes"
         mock_repository.update.assert_called_once_with(category)
 

@@ -15,7 +15,7 @@ class TestCreateCategory:
         use_case = CreateCategory(repository=mock_repository)
 
         request = CreateCategoryRequest(
-            name="Film",
+            name="Movie",
             description="some description",
             is_active=True
         )

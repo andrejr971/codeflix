@@ -11,7 +11,7 @@ from src.core.category.domain.exceptions import CategoryNotFound
 class TestDeleteCategory:
 
     def test_delete_category_from_repository(self):
-        category = Category(name="Film", description="some description")
+        category = Category(name="Movie", description="some description")
         mock_repository = create_autospec(CategoryRepository)
         mock_repository.get_by_id.return_value = category
 
