@@ -1,5 +1,5 @@
 from unittest.mock import create_autospec
-from src.core.category.application.category_repository import CategoryRepository
+from src.core.category.domain.category_repository import CategoryRepository
 from src.core.category.application.usecases.list_categories import CategoryOutput, ListCategories, ListCategoriesRequest, ListCategoriesResponse
 from src.core.category.domain.category import Category
 

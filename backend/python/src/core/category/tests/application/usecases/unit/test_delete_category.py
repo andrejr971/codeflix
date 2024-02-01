@@ -2,7 +2,7 @@ from unittest.mock import create_autospec
 import uuid
 
 import pytest
-from src.core.category.application.category_repository import CategoryRepository
+from src.core.category.domain.category_repository import CategoryRepository
 from src.core.category.application.usecases.delete_category import DeleteCategory, DeleteCategoryRequest
 from src.core.category.domain.category import Category
 from src.core.category.domain.exceptions import CategoryNotFound

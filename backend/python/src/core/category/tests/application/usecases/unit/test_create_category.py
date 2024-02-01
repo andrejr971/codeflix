@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
 import pytest
-from src.core.category.application.category_repository import CategoryRepository
+from src.core.category.domain.category_repository import CategoryRepository
 
 # pylint: disable=line-too-long
 from src.core.category.application.usecases.create_category import CreateCategory, CreateCategoryRequest, CreateCategoryResponse
