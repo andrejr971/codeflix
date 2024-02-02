@@ -1,6 +1,6 @@
 import uuid
 import pytest
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 from rest_framework.test import APIClient
 from src.core.category.domain.category import Category
 
@@ -32,7 +32,7 @@ class BaseTestMock:
 
 
 @pytest.mark.django_db
-class TestCategoryAPI(BaseTestMock):
+class TestListAPI(BaseTestMock):
 
     def test_list_categories(
         self,
@@ -46,20 +46,25 @@ class TestCategoryAPI(BaseTestMock):
         url = '/api/categories/'
         response = APIClient().get(url)
 
-        expect_data = [{
-            "id": str(category_movie.id),
-            "name": category_movie.name,
-            "description": category_movie.description,
-            "is_active": category_movie.is_active
-        }, {
-            "id": str(category_documentary.id),
-            "name": category_documentary.name,
-            "description": category_documentary.description,
-            "is_active": category_documentary.is_active
-        }]
+        expect_data = {
+            "data": [
+                {
+                    "id": str(category_movie.id),
+                    "name": category_movie.name,
+                    "description": category_movie.description,
+                    "is_active": category_movie.is_active
+                },
+                {
+                    "id": str(category_documentary.id),
+                    "name": category_documentary.name,
+                    "description": category_documentary.description,
+                    "is_active": category_documentary.is_active
+                }
+            ]
+        }
 
         assert response.status_code == HTTP_200_OK
-        assert len(response.data) == 2
+        assert len(response.data['data']) == 2
         assert response.data == expect_data
 
 
@@ -85,10 +90,12 @@ class TestRetrieveAPI(BaseTestMock):
         response = APIClient().get(url)
 
         expect_data = {
-            "id": str(category_documentary.id),
-            "name": category_documentary.name,
-            "description": category_documentary.description,
-            "is_active": category_documentary.is_active
+            "data": {
+                "id": str(category_documentary.id),
+                "name": category_documentary.name,
+                "description": category_documentary.description,
+                "is_active": category_documentary.is_active
+            }
         }
 
         assert response.status_code == HTTP_200_OK
@@ -100,3 +107,41 @@ class TestRetrieveAPI(BaseTestMock):
         response = APIClient().get(url)
 
         assert response.status_code == HTTP_404_NOT_FOUND
+
+
+@pytest.mark.django_db
+class TestCreateAPI(BaseTestMock):
+
+    def test_when_payload_is_invalid_return_400(self) -> None:
+        url = '/api/categories/'
+        response = APIClient().post(
+            url,
+            data={
+                "name": "",
+                "description": "some description"
+            }
+        )
+
+        assert response.status_code == HTTP_400_BAD_REQUEST
+
+    def test_wheh_payload_is_valid_return_200(
+        self,
+        category_movie: Category,
+        repository: DjangoORMCategoryRepository
+    ) -> None:
+        url = '/api/categories/'
+        response = APIClient().post(
+            url,
+            data={
+                "name": category_movie.name,
+                "description": category_movie.description,
+                "is_active": category_movie.is_active
+            }
+        )
+
+        assert response.status_code == HTTP_201_CREATED
+        assert response.data["id"]
+
+        assert repository.get_by_id(
+            uuid.UUID(response.data["id"])
+        ).name == category_movie.name

@@ -1,14 +1,15 @@
 # from django.shortcuts import render
-from uuid import UUID
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from core.category.application.usecases.create_category import CreateCategory, CreateCategoryRequest
 from src.core.category.application.usecases.get_category import GetCategory, GetCategoryRequest
 
 from src.core.category.application.usecases.list_categories import ListCategories, ListCategoriesRequest
 from src.core.category.domain.exceptions import CategoryNotFound
 from src.django_project.category_app.repository import DjangoORMCategoryRepository
+from src.django_project.category_app.serializers import CreateCategoryRequestSerializer, CreateCategoryResponseSerializer, ListCategoryResponseSerializer, RetrieveCategoryRequestSerializer, RetrieveCategoryResponseSerializer
 
 # Create your views here.
 
@@ -19,31 +20,20 @@ class CategoryViewSet(ViewSet):
     def list(self, request: Request) -> Response:
         queries = ListCategoriesRequest()
         use_case = ListCategories(repository=DjangoORMCategoryRepository())
-        categories = use_case.execute(request=queries)
+        response = use_case.execute(request=queries)
 
-        data = [
-            {
-                "id": str(category.id),
-                "name": category.name,
-                "description": category.description,
-                "is_active": category.is_active
-            } for category in categories.data
-        ]
+        serializers = ListCategoryResponseSerializer(instance=response)
 
         return Response(
             status=HTTP_200_OK,
-            data=data
+            data=serializers.data
         )
 
     def retrieve(self, request: Request, pk=None) -> Response:  # route get by id
-        try:
-            category_id = UUID(pk)
-        except ValueError:
-            return Response(
-                status=HTTP_400_BAD_REQUEST,
-            )
+        serializers_id = RetrieveCategoryRequestSerializer(data={"id": pk})
+        serializers_id.is_valid(raise_exception=True)
 
-        query = GetCategoryRequest(id=category_id)
+        query = GetCategoryRequest(id=serializers_id.validated_data["id"])
         use_case = GetCategory(repository=DjangoORMCategoryRepository())
 
         try:
@@ -56,12 +46,23 @@ class CategoryViewSet(ViewSet):
                 }
             )
 
+        serializers = RetrieveCategoryResponseSerializer(instance=category)
+
         return Response(
             status=HTTP_200_OK,
-            data={
-                "id": str(category.id),
-                "name": category.name,
-                "description": category.description,
-                "is_active": category.is_active
-            }
+            data=serializers.data
+        )
+
+    def create(self, request: Request) -> Response:
+        serialize = CreateCategoryRequestSerializer(data=request.data)
+        serialize.is_valid(raise_exception=True)
+
+        data = CreateCategoryRequest(**serialize.validated_data)
+        use_case = CreateCategory(repository=DjangoORMCategoryRepository())
+
+        category = use_case.execute(request=data)
+
+        return Response(
+            status=HTTP_201_CREATED,
+            data=CreateCategoryResponseSerializer(instance=category).data
         )
