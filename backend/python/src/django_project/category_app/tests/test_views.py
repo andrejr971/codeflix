@@ -1,5 +1,4 @@
 import uuid
-from django.urls import reverse
 import pytest
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 from rest_framework.test import APIClient
@@ -209,3 +208,33 @@ class TestUpdateAPI(BaseTestMock):
         )
 
         assert response.status_code == HTTP_404_NOT_FOUND
+
+
+@pytest.mark.django_db
+class TestDeleteAPI(BaseTestMock):
+
+    def test_when_id_is_invalid_return_400(self) -> None:
+        url = '/api/categories/invalid_id/'
+        response = APIClient().delete(url)
+
+        assert response.status_code == HTTP_400_BAD_REQUEST
+
+    def test_when_id_is_valid_return_404(self) -> None:
+        url = f'/api/categories/{uuid.uuid4()}/'
+        response = APIClient().delete(url)
+
+        assert response.status_code == HTTP_404_NOT_FOUND
+
+    def test_when_id_is_valid_return_204(
+        self,
+        category_movie: Category,
+        repository: DjangoORMCategoryRepository
+    ) -> None:
+        repository.save(category_movie)
+
+        url = f'/api/categories/{category_movie.id}/'
+        response = APIClient().delete(url)
+
+        assert response.status_code == HTTP_204_NO_CONTENT
+        assert not repository.get_by_id(category_movie.id)
+        assert repository.list() == []
