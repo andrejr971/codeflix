@@ -1,6 +1,7 @@
 import uuid
+from django.urls import reverse
 import pytest
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 from rest_framework.test import APIClient
 from src.core.category.domain.category import Category
 
@@ -123,6 +124,7 @@ class TestCreateAPI(BaseTestMock):
         )
 
         assert response.status_code == HTTP_400_BAD_REQUEST
+        assert response.data == {"name": ["This field may not be blank."]}
 
     def test_wheh_payload_is_valid_return_200(
         self,
@@ -145,3 +147,65 @@ class TestCreateAPI(BaseTestMock):
         assert repository.get_by_id(
             uuid.UUID(response.data["id"])
         ).name == category_movie.name
+
+
+@pytest.mark.django_db
+class TestUpdateAPI(BaseTestMock):
+
+    def test_when_payload_is_invalid_return_400(self) -> None:
+        url = '/api/categories/invalid_id/'
+        response = APIClient().put(
+            url,
+            data={
+                "name": "",
+                "description": "some description",
+            },
+        )
+
+        assert response.status_code == HTTP_400_BAD_REQUEST
+        assert response.data == {
+            "name": ["This field may not be blank."],
+            "id": ["Must be a valid UUID."],
+            "is_active": ["This field is required."],
+        }
+
+    def test_when_payload_is_valid_return_204(self) -> None:
+        category = Category(
+            name="Movie",
+            description="Category 1 description"
+        )
+
+        repository = DjangoORMCategoryRepository()
+        repository.save(category)
+
+        url = f'/api/categories/{category.id}/'
+        response = APIClient().put(
+            url,
+            data={
+                "name": "Documentary",
+                "description": "New description",
+                "is_active": True
+            }
+        )
+
+        updated_category = repository.get_by_id(category.id)
+
+        assert response.status_code == HTTP_204_NO_CONTENT
+        assert updated_category.name == "Documentary"
+        assert updated_category.description == "New description"
+        assert updated_category.is_active
+
+    def test_when_category_does_not_exist_then_return_404(
+        self,
+    ) -> None:
+        url = f'/api/categories/{uuid.uuid4()}/'
+        response = APIClient().put(
+            url,
+            data={
+                "name": "Documentary",
+                "description": "New description",
+                "is_active": True
+            }
+        )
+
+        assert response.status_code == HTTP_404_NOT_FOUND

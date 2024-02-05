@@ -21,11 +21,11 @@ class UpdateCategory:
     def execute(self, request: UpdateCategoryRequest) -> None:
         category = self.repository.get_by_id(request.id)
 
-        current_name = category.name
-        current_description = category.description
-
         if category is None:
             raise CategoryNotFound(f"Category with {request.id} not found")
+
+        current_name = category.name
+        current_description = category.description
 
         if request.name is not None:
             current_name = request.name

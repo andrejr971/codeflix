@@ -2,14 +2,15 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 from core.category.application.usecases.create_category import CreateCategory, CreateCategoryRequest
 from src.core.category.application.usecases.get_category import GetCategory, GetCategoryRequest
+from src.core.category.application.usecases.update_category import UpdateCategory, UpdateCategoryRequest
 
 from src.core.category.application.usecases.list_categories import ListCategories, ListCategoriesRequest
 from src.core.category.domain.exceptions import CategoryNotFound
 from src.django_project.category_app.repository import DjangoORMCategoryRepository
-from src.django_project.category_app.serializers import CreateCategoryRequestSerializer, CreateCategoryResponseSerializer, ListCategoryResponseSerializer, RetrieveCategoryRequestSerializer, RetrieveCategoryResponseSerializer
+from src.django_project.category_app.serializers import CreateCategoryRequestSerializer, CreateCategoryResponseSerializer, ListCategoryResponseSerializer, RetrieveCategoryRequestSerializer, RetrieveCategoryResponseSerializer, UpdateCategoryRequestSerializer
 
 # Create your views here.
 
@@ -65,4 +66,27 @@ class CategoryViewSet(ViewSet):
         return Response(
             status=HTTP_201_CREATED,
             data=CreateCategoryResponseSerializer(instance=category).data
+        )
+
+    def update(self, request: Request, pk=None) -> Response:
+        serializer = UpdateCategoryRequestSerializer(
+            data={
+                "id": pk,
+                **request.data
+            }
+        )
+        serializer.is_valid(raise_exception=True)
+
+        data = UpdateCategoryRequest(**serializer.validated_data)
+        use_case = UpdateCategory(repository=DjangoORMCategoryRepository())
+
+        try:
+            use_case.execute(request=data)
+        except CategoryNotFound:
+            return Response(
+                status=HTTP_404_NOT_FOUND,
+            )
+
+        return Response(
+            status=HTTP_204_NO_CONTENT,
         )
