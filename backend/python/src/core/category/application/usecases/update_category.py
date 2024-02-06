@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from uuid import UUID
 
 from src.core.category.domain.category_repository import CategoryRepository
-from src.core.category.domain.exceptions import CategoryNotFound
+from src.core.category.domain.exceptions import CategoryNotFound, InvalidCategoryData
 
 
 @dataclass
@@ -24,21 +24,27 @@ class UpdateCategory:
         if category is None:
             raise CategoryNotFound(f"Category with {request.id} not found")
 
-        current_name = category.name
-        current_description = category.description
+        try:
+            if request.is_active is True:
+                category.activate()
 
-        if request.name is not None:
-            current_name = request.name
+            if request.is_active is False:
+                category.desactivate()
 
-        if request.description is not None:
-            current_description = request.description
+            current_name = category.name
+            current_description = category.description
 
-        if request.is_active is True:
-            category.activate()
+            if request.name is not None:
+                current_name = request.name
 
-        if request.is_active is False:
-            category.desactivate()
+            if request.description is not None:
+                current_description = request.description
 
-        category.update(name=current_name, description=current_description)
+            category.update(
+                name=current_name,
+                description=current_description
+            )
+        except ValueError as error:
+            raise InvalidCategoryData(error)
 
         self.repository.update(category)

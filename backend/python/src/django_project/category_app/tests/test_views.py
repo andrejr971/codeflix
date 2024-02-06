@@ -238,3 +238,66 @@ class TestDeleteAPI(BaseTestMock):
         assert response.status_code == HTTP_204_NO_CONTENT
         assert not repository.get_by_id(category_movie.id)
         assert repository.list() == []
+
+
+@pytest.mark.django_db
+class TestPatchAPI(BaseTestMock):
+
+    def test_when_id_is_invalid_return_400(self) -> None:
+        url = '/api/categories/invalid_id/'
+        response = APIClient().patch(url, data={})
+
+        assert response.status_code == HTTP_400_BAD_REQUEST
+
+    def test_when_id_is_valid_return_404(self) -> None:
+        url = f'/api/categories/{uuid.uuid4()}/'
+        response = APIClient().patch(url, data={})
+
+        assert response.status_code == HTTP_404_NOT_FOUND
+
+    def test_when_payload_is_valid_return_204(self) -> None:
+        category = Category(
+            name="Movie",
+            description="Category 1 description"
+        )
+
+        repository = DjangoORMCategoryRepository()
+        repository.save(category)
+
+        url = f'/api/categories/{category.id}/'
+        response = APIClient().patch(
+            url,
+            data={
+                "name": "Documentary",
+            }
+        )
+
+        updated_category = repository.get_by_id(category.id)
+
+        assert response.status_code == HTTP_204_NO_CONTENT
+        assert updated_category.name == "Documentary"
+        assert updated_category.description == "Category 1 description"
+        assert updated_category.is_active
+
+        response = APIClient().patch(
+            url,
+            data={
+                "description": "New description",
+            }
+        )
+
+        updated_category = repository.get_by_id(category.id)
+        assert updated_category.name == "Documentary"
+        assert updated_category.description == "New description"
+
+        response = APIClient().patch(
+            url,
+            data={
+                "is_active": False,
+            }
+        )
+
+        updated_category = repository.get_by_id(category.id)
+        assert updated_category.name == "Documentary"
+        assert updated_category.description == "New description"
+        assert not updated_category.is_active
