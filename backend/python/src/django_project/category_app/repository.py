@@ -20,12 +20,12 @@ class DjangoORMCategoryRepository(CategoryRepository):
 
     def get_by_id(self, id: UUID) -> Category | None:
         try:
-            category = self.model.objects.get(id=id)
+            category_model = self.model.objects.get(id=id)
             return Category(
-                id=category.id,
-                name=category.name,
-                description=category.description,
-                is_active=category.is_active
+                id=category_model.id,
+                name=category_model.name,
+                description=category_model.description,
+                is_active=category_model.is_active,
             )
         except self.model.DoesNotExist:
             return None
