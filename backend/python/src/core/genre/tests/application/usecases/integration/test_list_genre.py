@@ -1,4 +1,3 @@
-from django.http import request
 from src.core.genre.application.usecases.list_genre import ListGenre, ResponseListGenre
 from src.core.genre.domain.genre import Genre
 from src.core.genre.infra.repositories.in_memory_genre_repository import (
