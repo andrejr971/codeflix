@@ -1,0 +1,10 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "bracketSpacing": false,
+  "trailingComma": "all",
+  "quoteProps": "consistent",
+  "editor.formatOnSave": true,
+  "prettier.singleQuote": true
+}
