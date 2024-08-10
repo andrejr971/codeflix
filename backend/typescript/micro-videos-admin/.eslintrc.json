@@ -21,7 +21,8 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "camelcase": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-useless-call": "off"
   },
   "settings": {
     "import/parsers": {
