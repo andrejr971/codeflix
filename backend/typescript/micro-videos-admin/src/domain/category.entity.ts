@@ -7,7 +7,7 @@ export type CategoryConstructorProps = {
 };
 
 export class Category {
-  category_id: string;
+  category_id?: string;
   name: string;
   description: string | null;
   is_active: boolean;
@@ -20,7 +20,7 @@ export class Category {
     is_active,
     created_at,
   }: CategoryConstructorProps) {
-    this.category_id = category_id ?? '';
+    this.category_id = category_id;
     this.name = name;
     this.description = description ?? null;
     this.is_active = is_active ?? true;
