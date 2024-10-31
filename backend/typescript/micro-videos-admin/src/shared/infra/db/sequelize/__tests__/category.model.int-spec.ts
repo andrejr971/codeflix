@@ -1,18 +1,12 @@
-import {DataType, Sequelize} from 'sequelize-typescript';
+import {DataType} from 'sequelize-typescript';
+
+import {setupSequelize} from '@/shared/infra/testing/helpers';
 
 import {CategoryModel} from '../category.model';
 
 describe('CategoryModel Integration Model', () => {
-  let sequelize: Sequelize;
-
-  beforeEach(async () => {
-    sequelize = new Sequelize({
-      dialect: 'sqlite',
-      storage: ':memory:',
-      models: [CategoryModel],
-      logging: false,
-    });
-    await sequelize.sync({force: true});
+  setupSequelize({
+    models: [CategoryModel],
   });
 
   test('mapping props', () => {

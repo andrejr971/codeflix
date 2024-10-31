@@ -1,5 +1,3 @@
-import {Sequelize} from 'sequelize-typescript';
-
 import {Category} from '@/category/domain/category.entity';
 import {
   CategorySearchParams,
@@ -7,23 +5,20 @@ import {
 } from '@/category/domain/category.repository';
 import {NotFoundError} from '@/shared/domain/errors/not-found.error';
 import {Uuid} from '@/shared/domain/value-objects/uuid.vo';
+import {setupSequelize} from '@/shared/infra/testing/helpers';
 
 import {CategoryModel} from '../category.model';
 import {CategoryModelMapper} from '../category-model-mapper';
 import {CategorySequelizeRepository} from '../category-sequelize.repository';
 
 describe('CategorySequelizeRepository Integration Model', () => {
-  let sequelize: Sequelize;
   let repository: CategorySequelizeRepository;
 
+  setupSequelize({
+    models: [CategoryModel],
+  });
+
   beforeEach(async () => {
-    sequelize = new Sequelize({
-      dialect: 'sqlite',
-      storage: ':memory:',
-      models: [CategoryModel],
-      logging: false,
-    });
-    await sequelize.sync({force: true});
     repository = new CategorySequelizeRepository(CategoryModel);
   });
 
