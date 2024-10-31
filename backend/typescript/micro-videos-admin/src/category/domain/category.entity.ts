@@ -4,6 +4,7 @@ import {Uuid} from '@/shared/domain/value-objects/uuid.vo';
 import {EntityValidationError} from '@/shared/validators/validation.error';
 
 import {CategoryValidatorFactory} from './category.validator';
+import {CategoryFakeBuilder} from './category-fake.builder';
 
 export type CategoryConstructorProps = {
   category_id?: Uuid;
@@ -69,10 +70,14 @@ export class Category extends Entity {
     this.is_active = false;
   }
 
+  static fake() {
+    return CategoryFakeBuilder;
+  }
+
   static validate(entity: Category) {
     const validator = CategoryValidatorFactory.create();
     const isValid = validator.validate(entity);
-    if (!isValid) {
+    if (!isValid && validator.errors) {
       throw new EntityValidationError(validator.errors);
     }
   }
