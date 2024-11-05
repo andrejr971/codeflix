@@ -1,21 +1,21 @@
-import {CategoryModel} from '@/shared/infra/db/sequelize/category.model';
-import {CategorySequelizeRepository} from '@/shared/infra/db/sequelize/category-sequelize.repository';
+import {CategoryModel} from '@/category/infra/db/sequelize/category.model';
+import {CategorySequelizeRepository} from '@/category/infra/db/sequelize/category-sequelize.repository';
 
 import {NotFoundError} from '../../../../../shared/domain/errors/not-found.error';
 import {Uuid} from '../../../../../shared/domain/value-objects/uuid.vo';
 import {setupSequelize} from '../../../../../shared/infra/testing/helpers';
 import {Category} from '../../../../domain/category.entity';
-import {GetCategoryUseCase} from '../../get-category.use-case';
+import {DeleteCategoryUseCase} from '../delete-category.use-case';
 
-describe('GetCategoryUseCase Integration Tests', () => {
-  let useCase: GetCategoryUseCase;
+describe('DeleteCategoryUseCase Integration Tests', () => {
+  let useCase: DeleteCategoryUseCase;
   let repository: CategorySequelizeRepository;
 
   setupSequelize({models: [CategoryModel]});
 
   beforeEach(() => {
     repository = new CategorySequelizeRepository(CategoryModel);
-    useCase = new GetCategoryUseCase(repository);
+    useCase = new DeleteCategoryUseCase(repository);
   });
 
   it('should throws error when entity not found', async () => {
@@ -25,16 +25,12 @@ describe('GetCategoryUseCase Integration Tests', () => {
     );
   });
 
-  it('should returns a category', async () => {
+  it('should delete a category', async () => {
     const category = Category.fake().aCategory().build();
     await repository.insert(category);
-    const output = await useCase.execute({id: category.category_id.id});
-    expect(output).toStrictEqual({
+    await useCase.execute({
       id: category.category_id.id,
-      name: category.name,
-      description: category.description,
-      is_active: category.is_active,
-      created_at: category.created_at,
     });
+    await expect(repository.findById(category.category_id)).resolves.toBeNull();
   });
 });

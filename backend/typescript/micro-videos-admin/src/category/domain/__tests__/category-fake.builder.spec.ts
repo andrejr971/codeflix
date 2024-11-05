@@ -18,18 +18,18 @@ describe('CategoryFakerBuilder Unit Tests', () => {
     });
 
     test('should be undefined', () => {
-      // @ts-expect-error
+      // @ts-expect-error _category_id is private
       expect(faker._category_id).toBeUndefined();
     });
 
-    test('withCategoryId', () => {
+    test('withUuid', () => {
       const category_id = new Uuid();
-      const $this = faker.withCategoryId(category_id);
+      const $this = faker.withUuid(category_id);
       expect($this).toBeInstanceOf(CategoryFakeBuilder);
-      // @ts-expect-error
+      // @ts-expect-error _category_id is private
       expect(faker._category_id).toBe(category_id);
 
-      faker.withCategoryId(() => category_id);
+      faker.withUuid(() => category_id);
       // @ts-expect-error _category_id is a callable
       expect(faker._category_id()).toBe(category_id);
 
@@ -39,14 +39,14 @@ describe('CategoryFakerBuilder Unit Tests', () => {
     // TODO - melhorar este nome
     test('should pass index to category_id factory', () => {
       let mockFactory = jest.fn(() => new Uuid());
-      faker.withCategoryId(mockFactory);
+      faker.withUuid(mockFactory);
       faker.build();
       expect(mockFactory).toHaveBeenCalledTimes(1);
 
       const categoryId = new Uuid();
       mockFactory = jest.fn(() => categoryId);
       const fakerMany = CategoryFakeBuilder.theCategories(2);
-      fakerMany.withCategoryId(mockFactory);
+      fakerMany.withUuid(mockFactory);
       fakerMany.build();
 
       expect(mockFactory).toHaveBeenCalledTimes(2);
@@ -58,14 +58,14 @@ describe('CategoryFakerBuilder Unit Tests', () => {
   describe('name prop', () => {
     const faker = CategoryFakeBuilder.aCategory();
     test('should be a function', () => {
-      // @ts-expect-error
+      // @ts-expect-error _category_id is private
       expect(typeof faker._name).toBe('function');
     });
 
     test('should call the word method', () => {
       const chance = Chance();
       const spyWordMethod = jest.spyOn(chance, 'word');
-      // @ts-expect-error
+      // @ts-expect-error _category_id is private
       faker.chance = chance;
       faker.build();
 
@@ -236,7 +236,7 @@ describe('CategoryFakerBuilder Unit Tests', () => {
     const created_at = new Date();
     const category_id = new Uuid();
     category = faker
-      .withCategoryId(category_id)
+      .withUuid(category_id)
       .withName('name test')
       .withDescription('description test')
       .deactivate()
@@ -265,7 +265,7 @@ describe('CategoryFakerBuilder Unit Tests', () => {
     const created_at = new Date();
     const category_id = new Uuid();
     categories = faker
-      .withCategoryId(category_id)
+      .withUuid(category_id)
       .withName('name test')
       .withDescription('description test')
       .deactivate()

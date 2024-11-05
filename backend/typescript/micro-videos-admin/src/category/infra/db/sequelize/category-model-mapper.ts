@@ -1,6 +1,7 @@
 import {Category} from '@/category/domain/category.entity';
-import {Uuid} from '@/shared/domain/value-objects/uuid.vo';
 
+import {EntityValidationError} from '../../../../shared/domain/validators/validation.error';
+import {Uuid} from '../../../../shared/domain/value-objects/uuid.vo';
 import {CategoryModel} from './category.model';
 
 export class CategoryModelMapper {
@@ -22,7 +23,11 @@ export class CategoryModelMapper {
       is_active: model.is_active,
       created_at: model.created_at,
     });
-    Category.validate(category);
+
+    category.validate();
+    if (category.notification.hasErrors()) {
+      throw new EntityValidationError(category.notification.toJSON());
+    }
     return category;
   }
 }

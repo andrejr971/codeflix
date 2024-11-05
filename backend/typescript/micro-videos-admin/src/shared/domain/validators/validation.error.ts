@@ -1,12 +1,12 @@
+/* eslint-disable n/handle-callback-err */
 import {FieldsErrors} from './validator-fields-interface';
 
 export class ValidationError extends Error {}
 
 export class EntityValidationError extends Error {
-  // eslint-disable-next-line n/handle-callback-err
   constructor(
-    public error: FieldsErrors,
-    message = 'Validation Error',
+    public error: FieldsErrors[],
+    message = 'Entity Validation Error',
   ) {
     super(message);
   }
